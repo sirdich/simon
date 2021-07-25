@@ -71,6 +71,7 @@ $(".btn").click(function (e) {
       player.push(button);
       break;
   }
+
   if (isSameArray(sequence, player)) {
     setTimeout(() => {
       Turn();
