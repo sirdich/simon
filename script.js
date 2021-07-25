@@ -2,7 +2,9 @@ var buttonArray = ["red", "green", "blue", "yellow"];
 var sequence = [];
 var player = [];
 var title = $("h1");
-var clicked;
+var gameOver = false;
+var button;
+const wrong = new Audio("./sounds/wrong.mp3");
 
 const redBtn = {
   name: "red",
@@ -35,6 +37,8 @@ $(document).keydown(function (e) {
 
 function Start() {
   console.log("started");
+  player = [];
+  sequence = [];
 
   Turn();
 }
@@ -45,14 +49,13 @@ function Turn() {
   player = [];
   AddSequence();
   PlaySequence();
-
   console.log("sequence: " + sequence + "\nplayer:   " + player);
 }
 
-$(".btn").click(function (e) {
+var click = $(".btn").click(function (e) {
   e.preventDefault();
   let button = e.target.classList[1];
-
+  console.log(button);
   switch (button) {
     case "red":
       PressButton(redBtn.sound, redBtn.name);
@@ -76,12 +79,20 @@ $(".btn").click(function (e) {
     setTimeout(() => {
       Turn();
     }, 1500);
+  } else if (sequence.length === player.length && !isSameArray(sequence, player)) {
+    GameOver();
   }
   console.log("sequence: " + sequence + "\nplayer:   " + player);
 });
 
 function GameOver() {
   console.log("gameover");
+  wrong.play();
+  $("body").addClass("game-over");
+  setTimeout(() => {
+    Start();
+    $("body").removeClass("game-over");
+  }, 1500);
 }
 
 async function PlaySequence() {
@@ -116,7 +127,7 @@ function PressButton(sound, color) {
 
   setTimeout(function () {
     $("." + color).removeClass("pressed");
-  }, 500);
+  }, 250);
 }
 
 function timeout(ms) {
