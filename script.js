@@ -112,7 +112,7 @@ async function PlaySequence() {
         PressButton(yellowBtn.sound, yellowBtn.name);
         break;
     }
-    await timeout(750);
+    await timeout(250);
   }
 }
 
